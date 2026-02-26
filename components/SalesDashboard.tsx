@@ -5,9 +5,19 @@ interface SalesDashboardProps {
     onLogout: () => void;
 }
 
+type ScriptSegment = 'iniciante' | 'avancado' | 'empresario';
+type ScriptPhase = 'abordagem' | 'followup' | 'ligacao';
+
+interface ScriptItem {
+    cat: string;
+    title: string;
+    content: string;
+}
+
 const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
     const [activeTab, setActiveTab] = useState<'scripts' | 'escala' | 'registration' | 'payment'>('scripts');
-    const [scriptLevel, setScriptLevel] = useState<'iniciante' | 'avancado'>('iniciante');
+    const [segment, setSegment] = useState<ScriptSegment>('iniciante');
+    const [phase, setPhase] = useState<ScriptPhase>('abordagem');
 
     const menuItems = [
         { id: 'scripts', label: 'Scripts de Vendas', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
@@ -16,26 +26,62 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
         { id: 'payment', label: 'Links de Pagamento', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
     ];
 
-    const advancedScripts = [
-        { cat: 'Abordagem', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde __________. Aqui é a Leiry da Imersão Inteligência Artificial para Negócios. Você se cadastrou para a edição presencial em Florianópolis, dias 28 e 29 de março. Posso te explicar de forma objetiva?' },
-        { cat: 'Abordagem', title: '🎙️ ÁUDIO (30–40s)', content: 'Prazer, Leiry aqui. Só para contextualizar: somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e realizamos imersões premium inclusive no Vale do Silício. A proposta aqui não é ensinar ferramenta. É estruturar aplicação estratégica.' },
-        { cat: 'Sondagem', title: '🎙️ ÁUDIO', content: 'Hoje você já usa IA no seu negócio, certo? Você aplica mais para produção, automação ou decisão estratégica? Você já vende isso como solução estruturada ou ainda é execução pontual? (Aguardar resposta)' },
-        { cat: 'Espelho', title: '📲 ESCREVER', content: 'Então hoje você já domina parte técnica, mas quer estruturar aplicação estratégica e monetização, certo?' },
-        { cat: 'Explicação', title: '🎙️ ÁUDIO (1 min)', content: 'A imersão acontece em Florianópolis. 28 e 29 de março. Das 9h às 17h. No Castelmar Hotel. São dois dias 100% práticos. Você leva notebook. E trabalha: Estrutura comercial com IA, Assistente de vendas integrado, IA aplicada à decisão, Arquitetura de funil inteligente, Modelo replicável. Não é sobre aprender prompt. É sobre estruturar produto.' },
-        { cat: 'Monetização', title: '📲 ESCREVER', content: 'Você pode estruturar: 💰 Implantação IA comercial R$ 3.000 a R$ 10.000 | 💰 Assistente integrado com CRM R$ 5.000 a R$ 15.000 | 💰 Retainer mensal R$ 2.000 a R$ 6.000. Um único projeto já paga a imersão.' },
-        { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no 1º lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
-        { cat: 'Objeções', title: '💰 VALOR (ÁUDIO)', content: 'Quanto você precisa fechar em 1 projeto para pagar isso?' },
-    ];
-
-    const beginnerScripts = [
-        { cat: '1️⃣ ABERTURA', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde, tudo bem? Aqui é a Leiry, da equipe da Imersão Inteligência Artificial para Negócios. Você se cadastrou para receber informações sobre a edição presencial em Florianópolis, nos dias 28 e 29 de março. Posso te explicar rapidinho?' },
-        { cat: '1️⃣ ABERTURA', title: '🎙️ ÁUDIO (40s)', content: 'Prazer, meu nome é Leiry, faço parte da equipe. Só resumidamente para você conhecer: hoje somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e também realizamos imersões no Vale do Silício, nos EUA. Trabalhamos com imersão premium, presencial e 100% prática.' },
-        { cat: '2️⃣ QUALIFICAÇÃO', title: '🎙️ ÁUDIO', content: 'Para eu te orientar da forma certa, posso te fazer algumas perguntas rápidas? 1. Hoje você já trabalha com Inteligência Artificial ou está começando agora? 2. Você já usa IA no dia a dia ou ainda é bem básico? 3. Seu objetivo hoje é vender mais, ganhar tempo ou começar a prestar serviço? 4. Você aplicaria isso no seu negócio ou para clientes? (Aguardar resposta)' },
-        { cat: '4️⃣ EXPLICAÇÃO', title: '🎙️ ÁUDIO (1 min)', content: 'A imersão é presencial em Florianópolis, nos dias 28 e 29 de março. São 2 dias intensivos, das 9h às 17h, no Castelmar Hotel, no centro da cidade. Você leva notebook e constrói tudo ao vivo. Não é teoria. É aplicação.' },
-        { cat: '5️⃣ APRENDIZADO', title: '📲 ESCREVER', content: 'Durante os 2 dias você aprende a: ✔️ Entender onde IA entra no negócio, ✔️ Criar assistente de vendas com IA, ✔️ Classificar leads automaticamente, ✔️ Criar respostas inteligentes para WhatsApp, ✔️ Criar calendário de conteúdo profissa, ✔️ Criar relatórios de decisão, ✔️ Automatizar tarefas repetitivas. E método profissional de prompts (Papel, Contexto, Objetivo, Formato, Regras).' },
-        { cat: '7️⃣ MONETIZAÇÃO', title: '📲 ESCREVER', content: 'Se você tem negócio próprio: Melhorar atendimento e conversão. Se é autônomo/agência: Vender como serviço (Implantação IA R$1.500-4.000, Funil inteligente R$4.000-12.000). Com 1 cliente você já paga a imersão.' },
-        { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no primeiro lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
-    ];
+    const allScripts: Record<ScriptSegment, Record<ScriptPhase, ScriptItem[]>> = {
+        iniciante: {
+            abordagem: [
+                { cat: '1️⃣ ABERTURA', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde, tudo bem? Aqui é a Leiry, da equipe da Imersão Inteligência Artificial para Negócios. Você se cadastrou para receber informações sobre a edição presencial em Florianópolis, nos dias 28 e 29 de março. Posso te explicar rapidinho?' },
+                { cat: '1️⃣ ABERTURA', title: '🎙️ ÁUDIO (40s)', content: 'Prazer, meu nome é Leiry, faço parte da equipe. Só resumidamente para você conhecer: hoje somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e também realizamos imersões no Vale do Silício, nos EUA. Trabalhamos com imersão premium, presencial e 100% prática.' },
+                { cat: '2️⃣ QUALIFICAÇÃO', title: '🎙️ ÁUDIO', content: 'Para eu te orientar da forma certa, posso te fazer algumas perguntas rápidas? 1. Hoje você já trabalha com Inteligência Artificial ou está começando agora? 2. Você já usa IA no dia a dia ou ainda é bem básico? 3. Seu objetivo hoje é vender mais, ganhar tempo ou começar a prestar serviço? 4. Você aplicaria isso no seu negócio ou para clientes? (Aguardar resposta)' },
+                { cat: '4️⃣ EXPLICAÇÃO', title: '🎙️ ÁUDIO (1 min)', content: 'A imersão é presencial em Florianópolis, nos dias 28 e 29 de março. São 2 dias intensivos, das 9h às 17h, no Castelmar Hotel, no centro da cidade. Você leva notebook e constrói tudo ao vivo. Não é teoria. É aplicação.' },
+                { cat: '5️⃣ APRENDIZADO', title: '📲 ESCREVER', content: 'Durante os 2 dias você aprende a: ✔️ Entender onde IA entra no negócio, ✔️ Criar assistente de vendas com IA, ✔️ Classificar leads automaticamente, ✔️ Criar respostas inteligentes para WhatsApp, ✔️ Criar calendário de conteúdo profissa, ✔️ Criar relatórios de decisão, ✔️ Automatizar tarefas repetitivas. E método profissional de prompts (Papel, Contexto, Objetivo, Formato, Regras).' },
+                { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no primeiro lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
+            ],
+            followup: [
+                { cat: '📅 DIA 0 (10min)', title: 'IMEDIATO', content: '[Nome], gostei muito da nossa conversa. Principalmente quando você falou que quer começar em IA mas ainda se sente meio perdido. A Imersão IA Floripa é exatamente pra isso: Tirar você do zero e colocar num caminho estruturado. Te envio aqui um depoimento 👇' },
+                { cat: '📅 DIA 1', title: 'SEGURANÇA', content: '[Nome], deixa eu te perguntar: Se você tivesse um passo a passo claro para aplicar IA no seu negócio, você começaria com mais confiança?' },
+                { cat: '📅 DIA 2', title: 'PROVA SOCIAL', content: '[Nome], olha esse caso 👇 Pessoa que começou do zero. Saiu da imersão com assistente pronto e rotina organizada. Não precisa ser técnico. Precisa de método.' },
+                { cat: '📅 DIA 4', title: 'AVISO LOTE', content: '[Nome], só pra você se organizar. A Imersão IA Floripa está virando lote. Hoje ainda está em R$ 2.337. Depois sobe para R$ 3.500.' },
+            ],
+            ligacao: [
+                { cat: 'ABERTURA', title: 'CALL', content: 'Olá, bom dia/tarde, aqui é a Leiry. Você se cadastrou para a Imersão IA em Floripa dias 28/29 de Março. Consegue falar 2 min? Hoje somos parceiros oficiais do Google no Brasil...' },
+                { cat: 'QUALIFICAÇÃO', title: 'CALL', content: 'Para eu te orientar: Trabalha com marketing? Usa IA no dia a dia? Objetivo: vender mais ou prestar serviço?' },
+                { cat: 'FECHAMENTO', title: 'CALL', content: 'Vamos garantir sua vaga no 1º lote? Posso enviar a ficha agora?' }
+            ]
+        },
+        avancado: {
+            abordagem: [
+                { cat: 'Abordagem', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde __________. Aqui é a Leiry da Imersão Inteligência Artificial para Negócios. Você se cadastrou para a edição presencial em Florianópolis, dias 28 e 29 de março. Posso te explicar de forma objetiva?' },
+                { cat: 'Abordagem', title: '🎙️ ÁUDIO (30–40s)', content: 'Prazer, Leiry aqui. Só para contextualizar: somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e realizamos imersões premium inclusive no Vale do Silício. A proposta aqui não é ensinar ferramenta. É estruturar aplicação estratégica.' },
+                { cat: 'Sondagem', title: '🎙️ ÁUDIO', content: 'Hoje você já usa IA no seu negócio, certo? Você aplica mais para produção, automação ou decisão estratégica? Você já vende isso como solução estruturada ou ainda é execução pontual? (Aguardar resposta)' },
+                { cat: 'Espelho', title: '📲 ESCREVER', content: 'Então hoje você já domina parte técnica, mas quer estruturar aplicação estratégica e monetização, certo?' },
+                { cat: 'Monetização', title: '📲 ESCREVER', content: 'Você pode estruturar: 💰 Implantação IA comercial R$ 3.000 a R$ 10.000 | 💰 Assistente integrado com CRM R$ 5.000 a R$ 15.000 | 💰 Retainer mensal R$ 2.000 a R$ 6.000. Um único projeto já paga a imersão.' },
+            ],
+            followup: [
+                { cat: '📅 DIA 0', title: 'ESTRATÉGIA', content: '[Nome], excelente nossa conversa. Principalmente sobre [gargalo]. A Imersão IA Floripa resolve exatamente isso: Estrutura + previsibilidade + decisão baseada em dado. Te envio o case 👇' },
+                { cat: '📅 DIA 1', title: 'PROVOCAÇÃO', content: '[Nome], você já usa IA. Mas está usando como apoio ou como sistema operacional do seu negócio? A diferença é margem.' },
+                { cat: '📅 DIA 3', title: 'VIRADA LOTE', content: '[Nome], a Imersão IA Floripa está virando lote. Depois vai para R$ 3.500. Transparência total.' },
+            ],
+            ligacao: [
+                { cat: 'ABERTURA', title: 'CALL', content: 'Me chamo Leiry, parceiros oficiais Google... Imersão premium Vale do Silício... A proposta é implementar sistema no seu negócio.' },
+                { cat: 'O QUE MUDA', title: 'CALL', content: 'Reduzir tarefas manuais, diminuir dependência de equipe, clareza de números. Sair do improviso.' }
+            ]
+        },
+        empresario: {
+            abordagem: [
+                { cat: 'ABORDAGEM', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde __________, tudo bem? Me chamo Leiry, da Imersão IA para Negócios. Você se cadastrou para a edição presencial em Floripa, 28 e 29 de março. Posso te explicar rapidinho?' },
+                { cat: 'SONDAGEM', title: '🎙️ ÁUDIO', content: 'A imersão é para você mesmo? Hoje você já usa IA estruturada no negócio? Seu objetivo é vender mais ou organizar processos?' },
+                { cat: 'MONETIZAÇÃO', title: '📲 ESCREVER', content: 'Aprende a criar assistente de vendas, automatizar atendimento e relatórios de decisão. Transforma IA básica em ferramenta estratégica.' },
+            ],
+            followup: [
+                { cat: '📅 DIA 0', title: 'IMEDIATO', content: '[Nome], boa conversa. Te enviei o material que resolve aquele seu gargalo de [ponto mencionado].' },
+                { cat: '📅 DIA 1', title: 'IMPACTO', content: '[Nome], se você estruturasse isso agora, qual impacto teria nos próximos 90 dias sem aumentar custo fixo?' },
+            ],
+            ligacao: [
+                { cat: 'EXPLICAÇÃO', title: 'CALL', content: 'Castelmar Hotel. 100% prática. Você sai com pelo menos 1 estrutura funcionando. Nada de teoria.' },
+                { cat: 'INVESTIMENTO', title: 'CALL', content: 'R$ 2.337 à vista ou 12x 241. Perto da virada sobe para R$ 3.500.' }
+            ]
+        }
+    };
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -45,37 +91,52 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
     const renderContent = () => {
         switch (activeTab) {
             case 'scripts':
-                const activeScripts = scriptLevel === 'iniciante' ? beginnerScripts : advancedScripts;
+                const activeScripts = allScripts[segment][phase];
                 return (
                     <div className="space-y-6">
-                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <h2 className="text-2xl font-black text-white uppercase tracking-tight">
-                                {scriptLevel === 'iniciante' ? 'Iniciante' : 'Avançado'}: {scriptLevel === 'iniciante' ? 'Imersão IA Floripa' : 'Mkt Floripa IA ⭐'}
-                            </h2>
-                            <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800">
-                                <button
-                                    onClick={() => setScriptLevel('iniciante')}
-                                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${scriptLevel === 'iniciante' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}
-                                >
-                                    Iniciante
-                                </button>
-                                <button
-                                    onClick={() => setScriptLevel('avancado')}
-                                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${scriptLevel === 'avancado' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}
-                                >
-                                    Avançado
-                                </button>
+                        <div className="flex flex-col gap-6">
+                            <div className="flex flex-wrap items-center justify-between gap-4">
+                                <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+                                    {segment.charAt(0).toUpperCase() + segment.slice(1)}: {phase.charAt(0).toUpperCase() + phase.slice(1)}
+                                </h2>
+
+                                {/* Segment Selector */}
+                                <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+                                    {(['iniciante', 'avancado', 'empresario'] as ScriptSegment[]).map((s) => (
+                                        <button
+                                            key={s}
+                                            onClick={() => setSegment(s)}
+                                            className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${segment === s ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                                        >
+                                            {s}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Phase Selector */}
+                            <div className="flex flex-wrap gap-2">
+                                {(['abordagem', 'followup', 'ligacao'] as ScriptPhase[]).map((p) => (
+                                    <button
+                                        key={p}
+                                        onClick={() => setPhase(p)}
+                                        className={`px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${phase === p ? 'bg-white text-black border-white' : 'bg-transparent text-slate-400 border-slate-800 hover:border-slate-600'}`}
+                                    >
+                                        {p === 'abordagem' ? '📲 Whats' : p === 'followup' ? '🔄 Follow-up' : '📞 Ligação'}
+                                    </button>
+                                ))}
                             </div>
                         </div>
+
                         <div className="grid gap-6">
                             {activeScripts.map((s, i) => (
-                                <div key={i} className={`p-6 rounded-2xl border ${s.title.includes('ÁUDIO') ? 'bg-blue-600/5 border-blue-500/20' : 'bg-slate-900/50 border-slate-800'}`}>
+                                <div key={i} className={`p-6 rounded-2xl border ${s.title.includes('ÁUDIO') || s.title.includes('CALL') ? 'bg-blue-600/5 border-blue-500/20' : 'bg-slate-900/50 border-slate-800'}`}>
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
                                             <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1 block">{s.cat}</span>
-                                            <h3 className={`font-bold uppercase text-xs tracking-widest ${s.title.includes('ÁUDIO') ? 'text-blue-400' : 'text-green-400'}`}>{s.title}</h3>
+                                            <h3 className={`font-bold uppercase text-xs tracking-widest ${s.title.includes('ÁUDIO') || s.title.includes('CALL') ? 'text-blue-400' : 'text-green-400'}`}>{s.title}</h3>
                                         </div>
-                                        {s.title.includes('ESCREVER') && (
+                                        {(s.title.includes('ESCREVER') || s.title.includes('IMEDIATO') || s.title.includes('SEGURANÇA') || s.title.includes('PROVA') || s.title.includes('AVISO') || s.title.includes('ESTRATÉGIA') || s.title.includes('PROVOCAÇÃO') || s.title.includes('VIRADA') || s.title.includes('IMPACTO')) && (
                                             <button
                                                 onClick={() => copyToClipboard(s.content)}
                                                 className="text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-white transition-colors bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20"
@@ -84,7 +145,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                                             </button>
                                         )}
                                     </div>
-                                    <p className="text-slate-300 text-sm leading-relaxed italic">{s.content}</p>
+                                    <p className="text-slate-300 text-sm leading-relaxed italic whitespace-pre-wrap">{s.content}</p>
                                 </div>
                             ))}
                         </div>
