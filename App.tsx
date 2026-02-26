@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import Navbar from './components/Navbar.tsx';
-import Hero from './components/Hero.tsx';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
 import StatsCounter from './components/StatsCounter';
 import ActionPlan from './components/ActionPlan';
 import Mentor from './components/Mentor';
