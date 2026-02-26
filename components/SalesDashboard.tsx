@@ -15,21 +15,47 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
         { id: 'payment', label: 'Links de Pagamento', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
     ];
 
+    const scripts = [
+        { cat: 'Abordagem', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde __________. Aqui é a Leiry da Imersão Inteligência Artificial para Negócios. Você se cadastrou para a edição presencial em Florianópolis, dias 28 e 29 de março. Posso te explicar de forma objetiva?' },
+        { cat: 'Abordagem', title: '🎙️ ÁUDIO (30–40s)', content: 'Prazer, Leiry aqui. Só para contextualizar: somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e realizamos imersões premium inclusive no Vale do Silício. A proposta aqui não é ensinar ferramenta. É estruturar aplicação estratégica.' },
+        { cat: 'Sondagem', title: '🎙️ ÁUDIO', content: 'Hoje você já usa IA no seu negócio, certo? Você aplica mais para produção, automação ou decisão estratégica? Você já vende isso como solução estruturada ou ainda é execução pontual? (Aguardar resposta)' },
+        { cat: 'Espelho', title: '📲 ESCREVER', content: 'Então hoje você já domina parte técnica, mas quer estruturar aplicação estratégica e monetização, certo?' },
+        { cat: 'Monetização', title: '📲 ESCREVER', content: 'Você pode estruturar: 💰 Implantação IA comercial R$ 3.000 a R$ 10.000 | 💰 Assistente integrado com CRM R$ 5.000 a R$ 15.000 | 💰 Retainer mensal R$ 2.000 a R$ 6.000. Um único projeto já paga a imersão.' },
+        { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no 1º lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
+        { cat: 'Objeções', title: '💰 VALOR (ÁUDIO)', content: 'Quanto você precisa fechar em 1 projeto para pagar isso?' },
+    ];
+
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text);
+        alert('Copiado para a área de transferência!');
+    };
+
     const renderContent = () => {
         switch (activeTab) {
             case 'scripts':
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Scripts de Vendas</h2>
-                        <div className="grid gap-4">
-                            <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
-                                <h3 className="text-blue-500 font-bold mb-3 uppercase text-xs tracking-widest">Abordagem Inicial</h3>
-                                <p className="text-slate-300 text-sm leading-relaxed italic">"Olá [Nome], vi que você tem interesse na nossa Imersão de Google Ads + IA. Como está a sua operação hoje?"</p>
-                            </div>
-                            <div className="bg-slate-900/50 border border-slate-800 p-6 rounded-2xl">
-                                <h3 className="text-blue-500 font-bold mb-3 uppercase text-xs tracking-widest">Quebra de Objeção (Preço)</h3>
-                                <p className="text-slate-300 text-sm leading-relaxed italic">"Entendo o ponto do investimento, mas imagine o custo de continuar perdendo dinheiro em campanhas que não convertem por falta de dados inteligêntes..."</p>
-                            </div>
+                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Scripts de Vendas - Floripa</h2>
+                        <div className="grid gap-6">
+                            {scripts.map((s, i) => (
+                                <div key={i} className={`p-6 rounded-2xl border ${s.title.includes('ÁUDIO') ? 'bg-blue-600/5 border-blue-500/20' : 'bg-slate-900/50 border-slate-800'}`}>
+                                    <div className="flex justify-between items-start mb-4">
+                                        <div>
+                                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 mb-1 block">{s.cat}</span>
+                                            <h3 className={`font-bold uppercase text-xs tracking-widest ${s.title.includes('ÁUDIO') ? 'text-blue-400' : 'text-green-400'}`}>{s.title}</h3>
+                                        </div>
+                                        {s.title.includes('ESCREVER') && (
+                                            <button
+                                                onClick={() => copyToClipboard(s.content)}
+                                                className="text-[10px] font-black uppercase tracking-widest text-blue-500 hover:text-white transition-colors bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20"
+                                            >
+                                                Copiar Texto
+                                            </button>
+                                        )}
+                                    </div>
+                                    <p className="text-slate-300 text-sm leading-relaxed italic">{s.content}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 );
@@ -55,12 +81,15 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                     <div className="space-y-6">
                         <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Inscrição</h2>
                         <div className="space-y-4">
-                            {['Voucher Antecipado', 'Lista de Espera VIP', 'Inscrição Direta'].map((item, i) => (
-                                <div key={i} className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
-                                    <span className="text-white font-medium text-sm">{item}</span>
-                                    <button className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400">Copiar Link</button>
-                                </div>
-                            ))}
+                            <div className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
+                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário)</span>
+                                <button
+                                    onClick={() => copyToClipboard('https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview')}
+                                    className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400"
+                                >
+                                    Copiar Link
+                                </button>
+                            </div>
                         </div>
                     </div>
                 );
@@ -69,15 +98,15 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                     <div className="space-y-6">
                         <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Pagamento</h2>
                         <div className="grid md:grid-cols-2 gap-4">
-                            <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl border-t-4 border-t-green-500">
-                                <h3 className="text-white font-bold mb-2">À Vista (PIX)</h3>
-                                <p className="text-slate-400 text-xs mb-4">Processamento instantâneo</p>
-                                <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all">Gerar Link PIX</button>
-                            </div>
                             <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl border-t-4 border-t-blue-500">
-                                <h3 className="text-white font-bold mb-2">Parcelado (Cartão)</h3>
-                                <p className="text-slate-400 text-xs mb-4">Ate 12x com juros</p>
-                                <button className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all">Link de Checkout</button>
+                                <h3 className="text-white font-bold mb-2">Link de Pagamento (Hotmart)</h3>
+                                <p className="text-slate-400 text-xs mb-4">Primeiro Lote - R$ 2.337</p>
+                                <button
+                                    onClick={() => copyToClipboard('https://pay.hotmart.com/S104554315A?bid=1771712330808')}
+                                    className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all"
+                                >
+                                    Copiar Link de Checkout
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -102,8 +131,8 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                             key={item.id}
                             onClick={() => setActiveTab(item.id as any)}
                             className={`w-full flex items-center gap-4 px-4 py-4 rounded-2xl transition-all ${activeTab === item.id
-                                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                                    : 'hover:bg-slate-800/50 text-slate-400 hover:text-slate-200'
+                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                                : 'hover:bg-slate-800/50 text-slate-400 hover:text-slate-200'
                                 }`}
                         >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
