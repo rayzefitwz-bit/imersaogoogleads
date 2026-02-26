@@ -7,6 +7,7 @@ interface SalesDashboardProps {
 
 const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
     const [activeTab, setActiveTab] = useState<'scripts' | 'escala' | 'registration' | 'payment'>('scripts');
+    const [scriptLevel, setScriptLevel] = useState<'iniciante' | 'avancado'>('iniciante');
 
     const menuItems = [
         { id: 'scripts', label: 'Scripts de Vendas', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
@@ -15,14 +16,25 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
         { id: 'payment', label: 'Links de Pagamento', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
     ];
 
-    const scripts = [
+    const advancedScripts = [
         { cat: 'Abordagem', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde __________. Aqui é a Leiry da Imersão Inteligência Artificial para Negócios. Você se cadastrou para a edição presencial em Florianópolis, dias 28 e 29 de março. Posso te explicar de forma objetiva?' },
         { cat: 'Abordagem', title: '🎙️ ÁUDIO (30–40s)', content: 'Prazer, Leiry aqui. Só para contextualizar: somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e realizamos imersões premium inclusive no Vale do Silício. A proposta aqui não é ensinar ferramenta. É estruturar aplicação estratégica.' },
         { cat: 'Sondagem', title: '🎙️ ÁUDIO', content: 'Hoje você já usa IA no seu negócio, certo? Você aplica mais para produção, automação ou decisão estratégica? Você já vende isso como solução estruturada ou ainda é execução pontual? (Aguardar resposta)' },
         { cat: 'Espelho', title: '📲 ESCREVER', content: 'Então hoje você já domina parte técnica, mas quer estruturar aplicação estratégica e monetização, certo?' },
+        { cat: 'Explicação', title: '🎙️ ÁUDIO (1 min)', content: 'A imersão acontece em Florianópolis. 28 e 29 de março. Das 9h às 17h. No Castelmar Hotel. São dois dias 100% práticos. Você leva notebook. E trabalha: Estrutura comercial com IA, Assistente de vendas integrado, IA aplicada à decisão, Arquitetura de funil inteligente, Modelo replicável. Não é sobre aprender prompt. É sobre estruturar produto.' },
         { cat: 'Monetização', title: '📲 ESCREVER', content: 'Você pode estruturar: 💰 Implantação IA comercial R$ 3.000 a R$ 10.000 | 💰 Assistente integrado com CRM R$ 5.000 a R$ 15.000 | 💰 Retainer mensal R$ 2.000 a R$ 6.000. Um único projeto já paga a imersão.' },
         { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no 1º lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
         { cat: 'Objeções', title: '💰 VALOR (ÁUDIO)', content: 'Quanto você precisa fechar em 1 projeto para pagar isso?' },
+    ];
+
+    const beginnerScripts = [
+        { cat: '1️⃣ ABERTURA', title: '📲 ESCREVER', content: 'Olá, bom dia/boa tarde, tudo bem? Aqui é a Leiry, da equipe da Imersão Inteligência Artificial para Negócios. Você se cadastrou para receber informações sobre a edição presencial em Florianópolis, nos dias 28 e 29 de março. Posso te explicar rapidinho?' },
+        { cat: '1️⃣ ABERTURA', title: '🎙️ ÁUDIO (40s)', content: 'Prazer, meu nome é Leiry, faço parte da equipe. Só resumidamente para você conhecer: hoje somos parceiros oficiais do Google no Brasil, já formamos mais de 13 mil alunos e também realizamos imersões no Vale do Silício, nos EUA. Trabalhamos com imersão premium, presencial e 100% prática.' },
+        { cat: '2️⃣ QUALIFICAÇÃO', title: '🎙️ ÁUDIO', content: 'Para eu te orientar da forma certa, posso te fazer algumas perguntas rápidas? 1. Hoje você já trabalha com Inteligência Artificial ou está começando agora? 2. Você já usa IA no dia a dia ou ainda é bem básico? 3. Seu objetivo hoje é vender mais, ganhar tempo ou começar a prestar serviço? 4. Você aplicaria isso no seu negócio ou para clientes? (Aguardar resposta)' },
+        { cat: '4️⃣ EXPLICAÇÃO', title: '🎙️ ÁUDIO (1 min)', content: 'A imersão é presencial em Florianópolis, nos dias 28 e 29 de março. São 2 dias intensivos, das 9h às 17h, no Castelmar Hotel, no centro da cidade. Você leva notebook e constrói tudo ao vivo. Não é teoria. É aplicação.' },
+        { cat: '5️⃣ APRENDIZADO', title: '📲 ESCREVER', content: 'Durante os 2 dias você aprende a: ✔️ Entender onde IA entra no negócio, ✔️ Criar assistente de vendas com IA, ✔️ Classificar leads automaticamente, ✔️ Criar respostas inteligentes para WhatsApp, ✔️ Criar calendário de conteúdo profissa, ✔️ Criar relatórios de decisão, ✔️ Automatizar tarefas repetitivas. E método profissional de prompts (Papel, Contexto, Objetivo, Formato, Regras).' },
+        { cat: '7️⃣ MONETIZAÇÃO', title: '📲 ESCREVER', content: 'Se você tem negócio próprio: Melhorar atendimento e conversão. Se é autônomo/agência: Vender como serviço (Implantação IA R$1.500-4.000, Funil inteligente R$4.000-12.000). Com 1 cliente você já paga a imersão.' },
+        { cat: 'Investimento', title: '📲 ESCREVER', content: 'Hoje estamos no primeiro lote: R$ 2.337 ou 12x de R$ 241. Na virada sobe para R$ 3.500.' },
     ];
 
     const copyToClipboard = (text: string) => {
@@ -33,11 +45,30 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
     const renderContent = () => {
         switch (activeTab) {
             case 'scripts':
+                const activeScripts = scriptLevel === 'iniciante' ? beginnerScripts : advancedScripts;
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Conversa whats avançado mkt Floripa IA ⭐</h2>
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <h2 className="text-2xl font-black text-white uppercase tracking-tight">
+                                {scriptLevel === 'iniciante' ? 'Iniciante' : 'Avançado'}: {scriptLevel === 'iniciante' ? 'Imersão IA Floripa' : 'Mkt Floripa IA ⭐'}
+                            </h2>
+                            <div className="flex bg-slate-900/80 p-1 rounded-xl border border-slate-800">
+                                <button
+                                    onClick={() => setScriptLevel('iniciante')}
+                                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${scriptLevel === 'iniciante' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                                >
+                                    Iniciante
+                                </button>
+                                <button
+                                    onClick={() => setScriptLevel('avancado')}
+                                    className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-all ${scriptLevel === 'avancado' ? 'bg-blue-600 text-white' : 'text-slate-500 hover:text-slate-300'}`}
+                                >
+                                    Avançado
+                                </button>
+                            </div>
+                        </div>
                         <div className="grid gap-6">
-                            {scripts.map((s, i) => (
+                            {activeScripts.map((s, i) => (
                                 <div key={i} className={`p-6 rounded-2xl border ${s.title.includes('ÁUDIO') ? 'bg-blue-600/5 border-blue-500/20' : 'bg-slate-900/50 border-slate-800'}`}>
                                     <div className="flex justify-between items-start mb-4">
                                         <div>
@@ -82,7 +113,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                         <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Inscrição</h2>
                         <div className="space-y-4">
                             <div className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
-                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário) - florianópolis</span>
+                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário) - florianópolos</span>
                                 <button
                                     onClick={() => copyToClipboard('https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview')}
                                     className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400"
