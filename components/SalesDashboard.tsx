@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { scriptsData, ScriptFile } from './SalesScripts';
+import { scaleData } from './ScaleData';
 
 interface SalesDashboardProps {
     user: string;
@@ -84,18 +85,40 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                 );
             case 'escala':
                 return (
-                    <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Escala 2026</h2>
-                        <div className="bg-blue-600/10 border border-blue-500/20 p-8 rounded-3xl">
-                            <p className="text-slate-300 leading-relaxed mb-6">A meta para 2026 é consolidar a Imperium como a maior aceleradora de negócios através de IA e tráfego pago no Brasil.</p>
-                            <ul className="space-y-4">
-                                <li className="flex items-center gap-3 text-white font-medium">
-                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Expansion para novos mercados latinos
-                                </li>
-                                <li className="flex items-center gap-3 text-white font-medium">
-                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span> Implementação de modelos proprietários de IA
-                                </li>
-                            </ul>
+                    <div className="bg-slate-900/80 rounded-[2rem] border border-slate-800 overflow-hidden flex flex-col">
+                        <div className="p-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+                            <h2 className="text-lg font-black text-white uppercase tracking-tight">Escala de Eventos 2026</h2>
+                        </div>
+                        <div className="flex-1 overflow-x-auto p-8 scrollbar-thin scrollbar-thumb-slate-800">
+                            <table className="w-full text-left border-collapse">
+                                <thead>
+                                    <tr className="border-b border-slate-800">
+                                        <th className="py-4 px-4 text-xs font-black text-blue-500 uppercase tracking-widest">Status</th>
+                                        <th className="py-4 px-4 text-xs font-black text-blue-500 uppercase tracking-widest">Datas</th>
+                                        <th className="py-4 px-4 text-xs font-black text-blue-500 uppercase tracking-widest">Curso</th>
+                                        <th className="py-4 px-4 text-xs font-black text-blue-500 uppercase tracking-widest">Cidade/UF</th>
+                                        <th className="py-4 px-4 text-xs font-black text-blue-500 uppercase tracking-widest">Local</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-800/50">
+                                    {scaleData.map((item, idx) => (
+                                        <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
+                                            <td className="py-4 px-4">
+                                                <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${item.status.toLowerCase().includes('encerrada')
+                                                        ? 'bg-red-500/10 text-red-500 border border-red-500/20'
+                                                        : 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                                    }`}>
+                                                    {item.status}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-4 text-sm font-bold text-white uppercase">{item.dates}</td>
+                                            <td className="py-4 px-4 text-sm text-slate-300">{item.course}</td>
+                                            <td className="py-4 px-4 text-sm text-slate-300">{item.city}</td>
+                                            <td className="py-4 px-4 text-sm text-slate-500 italic">{item.venue || 'A definir'}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 );
@@ -188,7 +211,12 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                 <div className="max-w-6xl mx-auto">
                     <header className="mb-12">
                         <p className="text-blue-500 text-xs font-black uppercase tracking-[0.4em] mb-2">Sales Portal</p>
-                        <h1 className="text-4xl font-black text-white uppercase tracking-tighter leading-none">Biblioteca de <span className="text-blue-600">Scripts.</span></h1>
+                        <h1 className="text-4xl font-black text-white uppercase tracking-tighter leading-none">
+                            {activeTab === 'scripts' && (<>Biblioteca de <span className="text-blue-600">Scripts.</span></>)}
+                            {activeTab === 'escala' && (<>Programação <span className="text-blue-600">Eventos 2026.</span></>)}
+                            {activeTab === 'registration' && (<>Links de <span className="text-blue-600">Inscrição.</span></>)}
+                            {activeTab === 'payment' && (<>Canais de <span className="text-blue-600">Pagamento.</span></>)}
+                        </h1>
                     </header>
 
                     {renderContent()}
