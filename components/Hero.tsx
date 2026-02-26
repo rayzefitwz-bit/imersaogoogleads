@@ -111,10 +111,6 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
             <div className="relative z-20 w-full max-w-[550px] md:max-w-[800px] aspect-square flex items-center justify-center">
               <div
                 className="w-full h-full relative group animate-[float_10s_ease-in-out_infinite]"
-                style={{
-                  maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0) 85%)',
-                  WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0) 85%)'
-                }}
               >
                 <img
                   src="https://i.ibb.co/sp4MZPzJ/Sem-T-tulo-1.png"
