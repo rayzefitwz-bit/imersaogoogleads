@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
+import { scriptsData, ScriptFile } from './SalesScripts';
 
 interface SalesDashboardProps {
     user: string;
     onLogout: () => void;
-}
-
-interface ScriptFile {
-    name: string;
-    content: string;
 }
 
 const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
@@ -22,44 +18,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
         { id: 'payment', label: 'Links de Pagamento', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
     ];
 
-    const scripts: ScriptFile[] = [
-        {
-            name: "Script Iniciante IA Floripa ⭐",
-            content: `# Script Iniciante IA Floripa ⭐\n\n## 🚀 Imersão Inteligência Artificial para Negócios\n📍 Florianópolis/SC | 28 e 29 de Março | 100% prática\n\n### 🔹 1️⃣ ABERTURA\nOlá, bom dia/boa tarde, tudo bem? Aqui é a Leiry...`
-        },
-        {
-            name: "Script empresário Floripa IA ⭐",
-            content: `# Script empresário Floripa IA ⭐\n\n## 📞 LIGAÇÃO TELEFÔNICA\n📍 Florianópolis/SC | 28 e 29 de Março | 100% prática\n\n### 🔹 ABORDAGEM\nOlá, bom dia/boa tarde __________, tudo bem?`
-        },
-        {
-            name: "Conversa What´s Floripa IA Empresário",
-            content: `# Conversa What´s Floripa IA Empresário\n\n## WHATSAPP – EMPRESÁRIO – FLORIANÓPOLIS\n📍 Florianópolis/SC | 28 e 29 de Março\n\n### 🔹 ABORDAGEM\nOlá, bom dia/boa tarde __________, tudo bem?`
-        },
-        {
-            name: "Followp iniciante Floripa IA ⭐",
-            content: `# Followp iniciante Floripa IA ⭐\n\n### 📅 DIA 0 – IMEDIATO\nJoão, gostei muito da nossa conversa...`
-        },
-        {
-            name: "Followp já é avançado ia floripa ⭐",
-            content: `# Followp já é avançado ia floripa ⭐\n\n### 📅 DIA 1 – PROVOCAÇÃO ESTRATÉGICA\nJoão, você já usa IA. Mas...`
-        },
-        {
-            name: "Conversa por Whatsapp Avançado em IA Gramado",
-            content: `# Conversa por Whatsapp Avançado em IA Gramado\n\n📍 Gramado | 11 e 12 Abril\n\n### 🟢 ETAPA 1 – ABERTURA\nOlá, bom dia/boa tarde, tudo bem?`
-        },
-        {
-            name: "Conversa por Whatsapp Empresário Presencial Gramado",
-            content: `# Conversa por Whatsapp Empresário Presencial Gramado\n\n### 🟢 ETAPA 1 – ABERTURA\nOlá, bom dia/boa tarde, tudo bem?`
-        },
-        {
-            name: "Script Iniciante IA Presencial Gramado",
-            content: `# Script Iniciante IA Presencial Gramado\n\n📍 Gramado | 11 e 12 de Abril\n\n### 🔹 1️⃣ ABERTURA\nOlá, bom dia/boa tarde, tudo bem?`
-        },
-        {
-            name: "Script já é avançado IA ou N8N Gramado",
-            content: `# Script já é avançado IA ou N8N Presencial Gramado\n\n### 🔹 ABORDAGEM\nOlá, bom dia/boa tarde ________, tudo bem?`
-        }
-    ];
+    const scripts: ScriptFile[] = scriptsData;
 
     const filteredScripts = scripts.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
 
