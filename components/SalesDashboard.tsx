@@ -1,16 +1,27 @@
 import React, { useState } from 'react';
-import { scriptsData, ScriptFile } from './SalesScripts';
-import { scaleData } from './ScaleData';
+import { dataService, ScaleEntry, SalesLink } from './dataService';
 
 interface SalesDashboardProps {
     user: string;
+    role: 'admin' | 'vendedor';
     onLogout: () => void;
 }
 
-const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
+const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, role, onLogout }) => {
     const [activeTab, setActiveTab] = useState<'scripts' | 'escala' | 'registration' | 'payment'>('scripts');
     const [selectedScript, setSelectedScript] = useState<number>(0);
     const [searchTerm, setSearchTerm] = useState('');
+
+    // Dynamic Data State
+    const [scripts, setScripts] = useState(dataService.getScripts());
+    const [scaleEntries, setScaleEntries] = useState(dataService.getScale());
+    const [links, setLinks] = useState(dataService.getLinks());
+
+    // Modal State
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+    const [newScript, setNewScript] = useState({ name: '', category: '', content: '' });
+    const [newScale, setNewScale] = useState<ScaleEntry>({ status: 'ATIVO', dates: '', course: '', city: '', venue: '', professor: '', traffic: '' });
+    const [newLink, setNewLink] = useState({ label: '', url: '', category: 'registration' as 'registration' | 'payment' });
 
     const menuItems = [
         { id: 'scripts', label: 'Scripts de Vendas', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
@@ -19,9 +30,34 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
         { id: 'payment', label: 'Links de Pagamento', icon: 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z' },
     ];
 
-    const scripts: ScriptFile[] = scriptsData;
-
     const filteredScripts = scripts.filter(s => s.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    const handleAddScript = () => {
+        const updated = dataService.saveScript(newScript);
+        setScripts(updated);
+        setIsAddModalOpen(false);
+        setNewScript({ name: '', category: '', content: '' });
+    };
+
+    const handleAddScale = () => {
+        const updated = dataService.saveScaleEntry(newScale);
+        setScaleEntries(updated);
+        setIsAddModalOpen(false);
+        setNewScale({ status: 'ATIVO', dates: '', course: '', city: '', venue: '', professor: '', traffic: '' });
+    };
+
+    const handleAddLink = () => {
+        const linkToAdd: SalesLink = {
+            id: Date.now().toString(),
+            category: newLink.category,
+            label: newLink.label,
+            url: newLink.url
+        };
+        const updated = dataService.saveLink(linkToAdd);
+        setLinks(updated);
+        setIsAddModalOpen(false);
+        setNewLink({ label: '', url: '', category: 'registration' });
+    };
 
     const copyToClipboard = (text: string) => {
         navigator.clipboard.writeText(text);
@@ -47,7 +83,16 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </div>
+
                             <div className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-slate-800">
+                                {role === 'admin' && (
+                                    <button
+                                        onClick={() => setIsAddModalOpen(true)}
+                                        className="w-full py-3 bg-blue-600/10 border border-blue-500/30 text-blue-500 text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-blue-600 hover:text-white transition-all mb-4"
+                                    >
+                                        + Adicionar Novo Script
+                                    </button>
+                                )}
                                 {filteredScripts.map((s, idx) => (
                                     <button
                                         key={idx}
@@ -86,8 +131,16 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
             case 'escala':
                 return (
                     <div className="bg-slate-900/80 rounded-[2rem] border border-slate-800 overflow-hidden flex flex-col">
-                        <div className="p-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm">
+                        <div className="p-6 border-b border-slate-800 bg-slate-900/50 backdrop-blur-sm flex justify-between items-center">
                             <h2 className="text-lg font-black text-white uppercase tracking-tight">Escala de Eventos 2026</h2>
+                            {role === 'admin' && (
+                                <button
+                                    onClick={() => setIsAddModalOpen(true)}
+                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all"
+                                >
+                                    + Adicionar Evento
+                                </button>
+                            )}
                         </div>
                         <div className="flex-1 overflow-x-auto p-8 scrollbar-thin scrollbar-thumb-slate-800">
                             <table className="w-full text-left border-collapse">
@@ -101,12 +154,12 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-800/50">
-                                    {scaleData.map((item, idx) => (
+                                    {scaleEntries.map((item, idx) => (
                                         <tr key={idx} className="hover:bg-slate-800/30 transition-colors">
                                             <td className="py-4 px-4">
-                                                <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${item.status.toLowerCase().includes('encerrada')
-                                                        ? 'bg-red-500/10 text-red-500 border border-red-500/20'
-                                                        : 'bg-green-500/10 text-green-500 border border-green-500/20'
+                                                <span className={`inline-block px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${item.status.toLowerCase().includes('encerrada') || item.status.toLowerCase().includes('finalizado')
+                                                    ? 'bg-red-500/10 text-red-500 border border-red-500/20'
+                                                    : 'bg-green-500/10 text-green-500 border border-green-500/20'
                                                     }`}>
                                                     {item.status}
                                                 </span>
@@ -125,38 +178,69 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
             case 'registration':
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Inscrição</h2>
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
-                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário) - florianópolos</span>
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Inscrição</h2>
+                            {role === 'admin' && (
                                 <button
-                                    onClick={() => copyToClipboard('https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview')}
-                                    className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400"
+                                    onClick={() => {
+                                        setNewLink({ label: '', url: '', category: 'registration' });
+                                        setIsAddModalOpen(true);
+                                    }}
+                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all"
                                 >
-                                    Copiar Link
+                                    + Adicionar Link
                                 </button>
-                            </div>
+                            )}
+                        </div>
+                        <div className="space-y-4">
+                            {links.filter(l => l.category === 'registration').map((link) => (
+                                <div key={link.id} className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
+                                    <span className="text-white font-medium text-sm">{link.label}</span>
+                                    <button
+                                        onClick={() => copyToClipboard(link.url)}
+                                        className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400 font-bold"
+                                    >
+                                        Copiar Link
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 );
             case 'payment':
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Pagamento</h2>
-                        <div className="grid md:grid-cols-2 gap-4">
-                            <div className="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl border-t-4 border-t-blue-500">
-                                <h3 className="text-white font-bold mb-2">Link de Pagamento (Hotmart)</h3>
-                                <p className="text-slate-400 text-xs mb-4">Primeiro Lote - R$ 2.337</p>
+                        <div className="flex justify-between items-center">
+                            <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Pagamento</h2>
+                            {role === 'admin' && (
                                 <button
-                                    onClick={() => copyToClipboard('https://pay.hotmart.com/S104554315A?bid=1771712330808')}
-                                    className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all"
+                                    onClick={() => {
+                                        setNewLink({ label: '', url: '', category: 'payment' });
+                                        setIsAddModalOpen(true);
+                                    }}
+                                    className="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full transition-all"
                                 >
-                                    Copiar Link de Checkout
+                                    + Adicionar Link
                                 </button>
-                            </div>
+                            )}
+                        </div>
+                        <div className="grid md:grid-cols-2 gap-4">
+                            {links.filter(l => l.category === 'payment').map((link) => (
+                                <div key={link.id} className="bg-slate-900/80 border border-slate-700 p-6 rounded-2xl border-t-4 border-t-blue-500">
+                                    <h3 className="text-white font-bold mb-2">{link.label}</h3>
+                                    <button
+                                        onClick={() => copyToClipboard(link.url)}
+                                        className="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-all uppercase tracking-widest"
+                                    >
+                                        Copiar Link de checkout
+                                    </button>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 );
+            default:
+                return null;
         }
     };
 
@@ -193,6 +277,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                     <div className="bg-slate-900/50 p-4 rounded-2xl border border-slate-800 mb-4">
                         <p className="text-[10px] uppercase font-black text-slate-500 tracking-widest mb-1">Logado como</p>
                         <p className="text-xs text-white font-bold truncate">{user}</p>
+                        <p className="text-[8px] uppercase font-black text-blue-500 tracking-[0.2em] mt-1">{role}</p>
                     </div>
                     <button
                         onClick={onLogout}
@@ -221,6 +306,65 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
 
                     {renderContent()}
                 </div>
+
+                {/* Administration Modals */}
+                {isAddModalOpen && (
+                    <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+                        <div className="bg-[#12141a] border border-slate-800 w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
+                            <div className="p-6 border-b border-slate-800 flex justify-between items-center">
+                                <h3 className="text-white font-black uppercase tracking-tight">Adicionar Novo Recurso</h3>
+                                <button onClick={() => setIsAddModalOpen(false)} className="text-slate-500 hover:text-white">
+                                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                                </button>
+                            </div>
+                            <div className="p-8 space-y-4">
+                                {activeTab === 'scripts' && (
+                                    <>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Título do Script</label>
+                                            <input type="text" value={newScript.name} onChange={e => setNewScript({ ...newScript, name: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500" placeholder="Ex: Script de Abordagem" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Conteúdo</label>
+                                            <textarea rows={6} value={newScript.content} onChange={e => setNewScript({ ...newScript, content: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-blue-500" placeholder="Cole o roteiro aqui..." />
+                                        </div>
+                                        <button onClick={handleAddScript} className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-600/20">Salvar Script</button>
+                                    </>
+                                )}
+                                {activeTab === 'escala' && (
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="col-span-2">
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Curso / Nome Evento</label>
+                                            <input type="text" value={newScale.course} onChange={e => setNewScale({ ...newScale, course: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Cidade</label>
+                                            <input type="text" value={newScale.city} onChange={e => setNewScale({ ...newScale, city: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Datas</label>
+                                            <input type="text" value={newScale.dates} onChange={e => setNewScale({ ...newScale, dates: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm" />
+                                        </div>
+                                        <button onClick={handleAddScale} className="col-span-2 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-600/20 mt-4">Salvar Evento</button>
+                                    </div>
+                                )}
+                                {(activeTab === 'registration' || activeTab === 'payment') && (
+                                    <>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">Rótulo (Link)</label>
+                                            <input type="text" value={newLink.label} onChange={e => setNewLink({ ...newLink, label: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm" placeholder="Ex: Link Hotmart Promo" />
+                                        </div>
+                                        <div>
+                                            <label className="block text-slate-400 text-[10px] font-black uppercase tracking-widest mb-2">URL</label>
+                                            <input type="text" value={newLink.url} onChange={e => setNewLink({ ...newLink, url: e.target.value })} className="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-white text-sm" placeholder="https://..." />
+                                        </div>
+                                        <button onClick={handleAddLink} className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-blue-600/20">Salvar Link</button>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );

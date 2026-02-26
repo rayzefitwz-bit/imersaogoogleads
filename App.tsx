@@ -18,6 +18,7 @@ import SalesDashboard from './components/SalesDashboard';
 const App: React.FC = () => {
   const [view, setView] = useState<'landing' | 'login' | 'dashboard'>('landing');
   const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<'admin' | 'vendedor' | null>(null);
   const [scrolled, setScrolled] = useState(false);
 
   const handleEnrollment = (url: string) => {
@@ -49,16 +50,17 @@ const App: React.FC = () => {
     return (
       <Login
         onBack={() => setView('landing')}
-        onLogin={(user) => {
+        onLogin={(user, role) => {
           setCurrentUser(user);
+          setUserRole(role);
           setView('dashboard');
         }}
       />
     );
   }
 
-  if (view === 'dashboard' && currentUser) {
-    return <SalesDashboard user={currentUser} onLogout={() => setView('landing')} />;
+  if (view === 'dashboard' && currentUser && userRole) {
+    return <SalesDashboard user={currentUser} role={userRole} onLogout={() => setView('landing')} />;
   }
 
   return (

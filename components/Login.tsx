@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 interface LoginProps {
     onBack: () => void;
-    onLogin: (user: string) => void;
+    onLogin: (user: string, role: 'admin' | 'vendedor') => void;
 }
 
 const Login: React.FC<LoginProps> = ({ onBack, onLogin }) => {
@@ -12,12 +12,14 @@ const Login: React.FC<LoginProps> = ({ onBack, onLogin }) => {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (email === 'vendedor@imperium.com' && password === 'escala2026') {
-            onLogin(email);
+        if (email === 'admin@imperium.com' && password === 'admin2026') {
+            onLogin(email, 'admin');
+        } else if (email === 'vendedor@imperium.com' && password === 'escala2026') {
+            onLogin(email, 'vendedor');
         } else if (!email || !password) {
             setError('Por favor, preencha todos os campos.');
         } else {
-            setError('Credenciais inválidas. Use o e-mail e senha de teste.');
+            setError('Credenciais inválidas.');
         }
     };
 
