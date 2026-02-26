@@ -50,5 +50,5 @@ INSERT INTO sales_scripts (category, title, content) VALUES
 
 -- Links
 INSERT INTO sales_links (category, label, url) VALUES
-('registration', 'Ficha de Inscrição (Formulário)', 'https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview'),
+('registration', 'Ficha de Inscrição (Formulário) - florianópolis', 'https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview'),
 ('payment', 'Link de Pagamento (Hotmart)', 'https://pay.hotmart.com/S104554315A?bid=1771712330808');

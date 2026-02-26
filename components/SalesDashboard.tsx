@@ -35,7 +35,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
             case 'scripts':
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Scripts de Vendas - Floripa</h2>
+                        <h2 className="text-2xl font-black text-white uppercase tracking-tight">Conversa whats avançado mkt Floripa IA ⭐</h2>
                         <div className="grid gap-6">
                             {scripts.map((s, i) => (
                                 <div key={i} className={`p-6 rounded-2xl border ${s.title.includes('ÁUDIO') ? 'bg-blue-600/5 border-blue-500/20' : 'bg-slate-900/50 border-slate-800'}`}>
@@ -82,7 +82,7 @@ const SalesDashboard: React.FC<SalesDashboardProps> = ({ user, onLogout }) => {
                         <h2 className="text-2xl font-black text-white uppercase tracking-tight">Links de Inscrição</h2>
                         <div className="space-y-4">
                             <div className="flex items-center justify-between bg-slate-900/50 border border-slate-800 p-4 rounded-xl">
-                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário)</span>
+                                <span className="text-white font-medium text-sm">Ficha de Inscrição (Formulário) - florianópolis</span>
                                 <button
                                     onClick={() => copyToClipboard('https://docs.google.com/forms/d/1hk2QlsTRTBkHwxXZ1PLyE8R6oIxn9nHPGmDOBkc_Ees/preview')}
                                     className="text-blue-500 text-xs font-black uppercase tracking-widest hover:text-blue-400"
