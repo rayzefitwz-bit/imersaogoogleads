@@ -117,7 +117,7 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
                 }}
               >
                 <img
-                  src="https://i.ibb.co/sk8n9QQ/Whats-App-Image-2025-11-25-at-21-46-36-2.jpg"
+                  src="https://i.ibb.co/sp4MZPzJ/Sem-T-tulo-1.png"
                   alt="Imperium AI Solution"
                   className="w-full h-full object-contain scale-125 md:scale-135 group-hover:scale-[1.4] transition-transform duration-[4s] ease-out"
                 />
