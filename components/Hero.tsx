@@ -100,7 +100,7 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
             </div>
           </div>
 
-          <div className="lg:w-1/2 flex items-center justify-center relative min-h-[400px] md:min-h-[500px]">
+          <div className="lg:w-1/2 flex items-center justify-center relative min-h-[450px] md:min-h-[600px]">
             <div className="absolute z-10 w-full max-w-[400px] md:max-w-[550px] aspect-video rounded-[3rem] overflow-hidden opacity-[0.05] lg:-translate-x-16 lg:-translate-y-24 blur-md pointer-events-none">
               <img
                 src="https://mobatia.com/wp-content/uploads/2024/09/AI-in-Mobile-App-Development-1920-1080.png"
@@ -108,9 +108,9 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="relative z-20 w-full max-w-[600px] aspect-video flex items-center justify-center">
+            <div className="relative z-20 w-full max-w-[750px] aspect-video flex items-center justify-center lg:translate-x-10">
               <div
-                className="w-full h-full relative group animate-[float_10s_ease-in-out_infinite] rounded-3xl overflow-hidden shadow-2xl border border-slate-800/50"
+                className="w-full h-full relative group animate-[float_10s_ease-in-out_infinite] rounded-[2.5rem] overflow-hidden shadow-2xl border border-slate-800/50"
               >
                 <img
                   src="https://i.ibb.co/sp4MZPzJ/Sem-T-tulo-1.png"
