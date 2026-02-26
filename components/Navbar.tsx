@@ -65,6 +65,13 @@ const Navbar: React.FC<NavbarProps> = ({ scrolled, onParticipate, onLoginClick }
             Imersões presenciais em aberto
           </a>
           <a
+            href="#testimonials"
+            onClick={(e) => handleScrollTo(e, 'testimonials')}
+            className="hover:text-white transition-colors cursor-pointer"
+          >
+            Depoimentos
+          </a>
+          <a
             href="#pricing"
             onClick={(e) => handleScrollTo(e, 'pricing')}
             className="hover:text-white transition-colors cursor-pointer"
