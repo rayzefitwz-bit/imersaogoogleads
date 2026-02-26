@@ -12,7 +12,6 @@ import Testimonials from './components/Testimonials';
 import AIAssistant from './components/AIAssistant';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import BonusModal from './components/BonusModal';
 import Login from './components/Login';
 import SalesDashboard from './components/SalesDashboard';
 
@@ -20,10 +19,9 @@ const App: React.FC = () => {
   const [view, setView] = useState<'landing' | 'login' | 'dashboard'>('landing');
   const [currentUser, setCurrentUser] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
-  const [bonusModal, setBonusModal] = useState({ isOpen: false, url: '' });
 
-  const openBonusModal = (url: string) => {
-    setBonusModal({ isOpen: true, url });
+  const handleEnrollment = (url: string) => {
+    window.location.href = url;
   };
 
   useEffect(() => {
@@ -67,12 +65,12 @@ const App: React.FC = () => {
     <div className="min-h-screen bg-[#1a1c23] selection:bg-blue-500 selection:text-white">
       <Navbar
         scrolled={scrolled}
-        onParticipate={() => openBonusModal("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")}
+        onParticipate={() => handleEnrollment("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")}
         onLoginClick={() => setView('login')}
       />
 
       <main>
-        <Hero onGarantir={() => openBonusModal("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
+        <Hero onGarantir={() => handleEnrollment("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
         <StatsCounter />
 
         {/* Seção de Problema/Contexto */}
@@ -92,7 +90,7 @@ const App: React.FC = () => {
         </div>
 
         <div id="plan" className="scroll-mt-24">
-          <ActionPlan onGarantir={() => openBonusModal("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
+          <ActionPlan onGarantir={() => handleEnrollment("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
         </div>
 
         {/* Seção Para Quem É */}
@@ -186,11 +184,11 @@ const App: React.FC = () => {
         </div>
 
         <div id="presencial" className="scroll-mt-24">
-          <InPerson onGarantir={openBonusModal} />
+          <InPerson onGarantir={handleEnrollment} />
         </div>
 
         <div id="pricing" className="scroll-mt-24">
-          <Pricing onGarantir={() => openBonusModal("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
+          <Pricing onGarantir={() => handleEnrollment("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")} />
         </div>
 
         <Testimonials />
@@ -203,15 +201,9 @@ const App: React.FC = () => {
       <Footer />
       <AIAssistant />
 
-      <BonusModal
-        isOpen={bonusModal.isOpen}
-        onClose={() => setBonusModal({ ...bonusModal, isOpen: false })}
-        originalUrl={bonusModal.url}
-      />
-
       <div className="md:hidden fixed bottom-6 left-6 right-6 z-40">
         <button
-          onClick={() => openBonusModal("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")}
+          onClick={() => handleEnrollment("https://wa.me/5548996397690?text=ol%C3%A1%20tenho%20interesse%20em%20participar%20da%20imers%C3%A3o%20google%20ads%20e%20intelig%C3%AAncia%20artificial")}
           className="block w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl shadow-lg glow-blue transition-all uppercase tracking-widest text-sm"
         >
           Garantir Minha Vaga (24h de IA)
