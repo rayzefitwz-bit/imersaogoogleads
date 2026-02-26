@@ -160,7 +160,7 @@ const Features: React.FC = () => {
                   "Antes do curso eu vendia 800 iPhones/mês. Depois da imersão, <span className="font-black text-blue-400">passei a vender quase 3.000.</span>"
                 </blockquote>
                 <cite className="text-slate-400 text-[10px] font-bold not-italic uppercase tracking-wider">
-                  Aluno EBMD, Balneário Camboriú (2023)
+                  Aluno imperium, Balneário Camboriú (2023)
                 </cite>
               </div>
             </div>
