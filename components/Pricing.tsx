@@ -49,10 +49,10 @@ const Pricing: React.FC<PricingProps> = ({ onGarantir }) => {
         <div className="text-center mb-16">
           <span className="text-blue-600 font-bold uppercase tracking-[0.3em] text-[10px]">Investimento</span>
           <h2 className="text-4xl md:text-5xl font-black mt-4 text-slate-900 tracking-tighter">
-            DOMINE O FUTURO EM <span className="text-blue-600 underline decoration-blue-500/20 underline-offset-8">FLORIPA</span>
+            DOMINE O FUTURO
           </h2>
           <p className="text-slate-500 mt-6 max-w-2xl mx-auto font-medium">
-            28 e 29 de Março | Imersão 100% Prática | Castelmar Hotel
+            Imersão 100% Prática com auxilio em tempo real
           </p>
         </div>
 
@@ -61,8 +61,8 @@ const Pricing: React.FC<PricingProps> = ({ onGarantir }) => {
             <div
               key={i}
               className={`relative flex flex-col p-8 rounded-[2.5rem] border transition-all duration-500 hover:-translate-y-2 ${tier.highlight
-                  ? 'bg-white border-blue-500 shadow-2xl shadow-blue-500/10 scale-105 z-20'
-                  : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
+                ? 'bg-white border-blue-500 shadow-2xl shadow-blue-500/10 scale-105 z-20'
+                : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
                 }`}
             >
               {tier.highlight && (
@@ -101,8 +101,8 @@ const Pricing: React.FC<PricingProps> = ({ onGarantir }) => {
               <button
                 onClick={onGarantir}
                 className={`w-full py-4 rounded-2xl font-black text-xs transition-all active:scale-95 text-center ${tier.highlight
-                    ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'
-                    : 'bg-[#1a1c23] hover:bg-slate-800 text-white'
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-lg shadow-blue-600/20'
+                  : 'bg-[#1a1c23] hover:bg-slate-800 text-white'
                   }`}>
                 {tier.cta}
               </button>

@@ -55,7 +55,7 @@ const Testimonials: React.FC = () => {
             O QUE NOSSOS <span className="text-blue-600">ALUNOS DIZEM</span>
           </h2>
           <p className="text-slate-400 mt-6 max-w-2xl mx-auto font-medium">
-            Resultados reais de quem decidiu dominar a inteligência artificial na prática e multiplicou seus resultados.
+            Resultados reais de quem decidiu dominar Google ads e a inteligência artificial na prática e multiplicou seus resultados.
           </p>
         </div>
 

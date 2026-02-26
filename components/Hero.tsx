@@ -38,13 +38,13 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
     <section id="hero" className="relative pt-32 pb-8 md:pt-40 md:pb-12 overflow-hidden bg-[#1a1c23]">
       {/* --- IA BACKGROUND ELEMENTS --- */}
       <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute inset-0 opacity-[0.10]" 
-             style={{ backgroundImage: `radial-gradient(#1e40af 0.5px, transparent 0.5px), radial-gradient(#1e40af 0.5px, #1a1c23 0.5px)`, backgroundSize: '40px 40px', backgroundPosition: '0 0, 20px 20px' }}>
+        <div className="absolute inset-0 opacity-[0.10]"
+          style={{ backgroundImage: `radial-gradient(#1e40af 0.5px, transparent 0.5px), radial-gradient(#1e40af 0.5px, #1a1c23 0.5px)`, backgroundSize: '40px 40px', backgroundPosition: '0 0, 20px 20px' }}>
         </div>
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[120px] animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
         <div className="absolute inset-0 opacity-20">
-            <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent absolute top-0 animate-[scan_10s_linear_infinite]"></div>
+          <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-blue-500/50 to-transparent absolute top-0 animate-[scan_10s_linear_infinite]"></div>
         </div>
       </div>
 
@@ -70,7 +70,7 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center mb-12">
-              <button 
+              <button
                 onClick={onGarantir}
                 className="w-full sm:w-auto px-12 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-black text-lg transition-all hover:shadow-[0_0_30px_rgba(37,99,235,0.4)] text-center uppercase tracking-wider hover:scale-105 active:scale-95"
               >
@@ -79,9 +79,9 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
               <div className="flex flex-col items-start text-left bg-[#1a1c23]/40 backdrop-blur-md p-4 border border-slate-800/50 rounded-2xl shadow-xl">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                  <span className="text-white text-[11px] font-bold uppercase tracking-tight">Próximas Turmas</span>
+                  <span className="text-white text-[11px] font-bold uppercase tracking-tight">Próxima Turma</span>
                 </div>
-                <span className="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em]">Florianópolis & Gramado</span>
+                <span className="text-slate-500 text-[9px] font-black uppercase tracking-[0.2em]">Gramado</span>
               </div>
             </div>
 
@@ -102,23 +102,23 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
 
           <div className="lg:w-1/2 flex items-center justify-center relative min-h-[550px] md:min-h-[750px]">
             <div className="absolute z-10 w-full max-w-[400px] md:max-w-[550px] aspect-video rounded-[3rem] overflow-hidden opacity-[0.15] lg:-translate-x-16 lg:-translate-y-24 blur-md pointer-events-none">
-              <img 
-                src="https://mobatia.com/wp-content/uploads/2024/09/AI-in-Mobile-App-Development-1920-1080.png" 
-                alt="IA e Mobilidade Background" 
+              <img
+                src="https://mobatia.com/wp-content/uploads/2024/09/AI-in-Mobile-App-Development-1920-1080.png"
+                alt="IA e Mobilidade Background"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="relative z-20 w-full max-w-[550px] md:max-w-[800px] aspect-square flex items-center justify-center">
-              <div 
+              <div
                 className="w-full h-full relative group animate-[float_10s_ease-in-out_infinite]"
-                style={{ 
+                style={{
                   maskImage: 'radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0) 85%)',
                   WebkitMaskImage: 'radial-gradient(circle, rgba(0,0,0,1) 20%, rgba(0,0,0,0.8) 45%, rgba(0,0,0,0) 85%)'
                 }}
               >
-                <img 
-                  src="https://i.ibb.co/sk8n9QQ/Whats-App-Image-2025-11-25-at-21-46-36-2.jpg" 
-                  alt="Imperium AI Solution" 
+                <img
+                  src="https://i.ibb.co/sk8n9QQ/Whats-App-Image-2025-11-25-at-21-46-36-2.jpg"
+                  alt="Imperium AI Solution"
                   className="w-full h-full object-contain scale-125 md:scale-135 group-hover:scale-[1.4] transition-transform duration-[4s] ease-out"
                 />
               </div>
@@ -128,7 +128,7 @@ const Hero: React.FC<HeroProps> = ({ onGarantir }) => {
           </div>
         </div>
       </div>
-      
+
       <style>{`
         @keyframes scan {
             0% { top: -10%; opacity: 0; }
